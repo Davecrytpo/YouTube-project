@@ -5,7 +5,7 @@ import { MOCK_VIDEOS } from '../data/mockData';
 
 export default function LikedVideos() {
   const [isPrivate] = useState(true);
-  const [sortBy, setSortBy] = useState('Recent');
+  const [sortBy] = useState('Recent');
   const videos = MOCK_VIDEOS.slice(0, 6);
 
   return (

@@ -1,10 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-const supabaseUrl = 'https://gkwilvsrphmcqtljipme.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdrd2lsdnNycGhtY3F0bGppcG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA1MzczMTYsImV4cCI6MjA0NjExMzMxNn0._vw7fv66gpSfEkPfW9modv95ojTYSxG797J9OtvT-2Q';
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  // Fail early in development if env vars are missing
+  console.error('Missing Supabase environment variables. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+}
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(
+  SUPABASE_URL ?? '',
+  SUPABASE_ANON_KEY ?? ''
+);
 
 export async function signUp(email: string, password: string) {
   try {
@@ -18,7 +25,7 @@ export async function signUp(email: string, password: string) {
     
     if (error) throw error;
     return { data, error: null };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return { data: null, error };
   }
 }
@@ -32,7 +39,7 @@ export async function signIn(email: string, password: string) {
     
     if (error) throw error;
     return { data, error: null };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return { data: null, error };
   }
 }
@@ -42,7 +49,7 @@ export async function signOut() {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     return { error: null };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return { error };
   }
 }
@@ -52,7 +59,7 @@ export async function getCurrentUser() {
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) throw error;
     return { user, error: null };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return { user: null, error };
   }
 }

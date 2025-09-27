@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ShoppingBag, Search } from 'lucide-react';
 import { MOCK_VIDEOS } from '../data/mockData';
-import { Video } from '../types';
 
 const MOCK_PRODUCTS = MOCK_VIDEOS.map((video, index) => ({
   id: `product-${index}`,

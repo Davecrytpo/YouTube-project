@@ -32,8 +32,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         toast.success('Please check your email to confirm your account!');
         onClose();
       }
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      toast.error(message);
     } finally {
       setLoading(false);
     }
