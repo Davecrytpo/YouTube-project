@@ -13,6 +13,8 @@ import Trending from './pages/Trending';
 import Shopping from './pages/Shopping';
 import Watch from './pages/Watch';
 import CategoryPage from './pages/CategoryPage';
+import Shorts from './pages/Shorts';
+import Profile from './pages/Profile';
 
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -26,9 +28,11 @@ export default function App() {
           <div className="hidden lg:block">
             <Sidebar isOpen={isSidebarOpen} />
           </div>
-          
+
           {/* Main Content */}
-          <main className={`flex-1 ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16'} transition-all duration-300 pb-16 lg:pb-0`}>
+          <main
+            className={`flex-1 ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16'} pb-16 transition-all duration-300 lg:pb-0`}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/explore" element={<Explore />} />
@@ -40,10 +44,12 @@ export default function App() {
               <Route path="/shopping" element={<Shopping />} />
               <Route path="/watch/:videoId" element={<Watch />} />
               <Route path="/category/:category" element={<CategoryPage />} />
+              <Route path="/shorts" element={<Shorts />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </main>
         </div>
-        
+
         {/* Mobile Bottom Navigation */}
         <div className="lg:hidden">
           <MobileNav />

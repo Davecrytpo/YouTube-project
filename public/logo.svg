@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF3355"/>
+      <stop offset="100%" stop-color="#E6002E"/>
+    </linearGradient>
+  </defs>
+  <!-- Distinctive rounded rectangle play-badge (inspired by but not identical to YouTube) -->
+  <rect x="16" y="40" rx="36" ry="36" width="224" height="176" fill="url(#g)"/>
+  <!-- Slightly slimmer play triangle -->
+  <path d="M108 96L176 128L108 160Z" fill="white"/>
+</svg>

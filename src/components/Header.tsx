@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Menu, Video, Bell, User, Mic, Upload } from 'lucide-react';
+import { Search, Menu, Bell, User, Mic, Upload } from 'lucide-react';
 import AuthModal from './AuthModal';
 
 interface HeaderProps {
@@ -12,67 +12,81 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 h-14 bg-[#0f0f0f] z-50 flex items-center justify-between px-4">
+      <header className="fixed left-0 right-0 top-0 z-50 flex h-14 items-center justify-between bg-[#0f0f0f] px-4">
         <div className="flex items-center">
-          <button 
-            onClick={onMenuClick} 
-            className="p-2 hover:bg-[#272727] rounded-full"
+          <button
+            onClick={onMenuClick}
+            aria-label="Toggle menu"
+            className="rounded-full p-2 hover:bg-[#272727]"
           >
-            <Menu className="w-6 h-6 text-white" />
+            <Menu className="h-6 w-6 text-white" />
           </button>
-          <div className="flex items-center ml-4 cursor-pointer">
-            <Video className="w-8 h-8 text-red-600" />
-            <span className="ml-1 text-xl font-semibold text-white hidden xs:block">YouTube</span>
+          <div className="ml-4 flex cursor-pointer select-none items-center" aria-label="Home">
+            <img src="/logo.svg" alt="YouTube Clone Logo" className="h-8 w-8" />
+            <span className="ml-1 hidden text-xl font-semibold text-white xs:block">YouTube</span>
           </div>
         </div>
 
-        <div className={`
-          ${showSearch ? 'flex absolute left-0 right-0 p-2 bg-[#0f0f0f] md:relative md:p-0' : 'hidden md:flex'}
-          flex-1 max-w-2xl mx-4
-        `}>
-          <div className="flex items-center w-full">
-            <div className="flex-1 flex items-center bg-[#121212] border border-[#303030] rounded-l-full">
+        <div
+          className={`
+          ${showSearch ? 'absolute left-0 right-0 flex bg-[#0f0f0f] p-2 md:relative md:p-0' : 'hidden md:flex'}
+          mx-4 max-w-2xl flex-1
+        `}
+        >
+          <div className="flex w-full items-center">
+            <div className="flex flex-1 items-center rounded-l-full border border-[#303030] bg-[#121212]">
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full px-4 py-2 bg-transparent text-white placeholder-[#aaa] outline-none"
+                className="w-full bg-transparent px-4 py-2 text-white placeholder-[#aaa] outline-none"
               />
             </div>
-            <button className="px-6 py-2 bg-[#272727] border-y border-r border-[#303030] rounded-r-full hover:bg-[#3f3f3f]">
-              <Search className="w-5 h-5 text-white" />
+            <button
+              aria-label="Search"
+              className="rounded-r-full border-y border-r border-[#303030] bg-[#272727] px-6 py-2 hover:bg-[#3f3f3f]"
+            >
+              <Search className="h-5 w-5 text-white" />
             </button>
-            <button className="ml-4 p-2 hover:bg-[#272727] rounded-full hidden sm:block">
-              <Mic className="w-5 h-5 text-white" />
+            <button
+              aria-label="Voice search"
+              className="ml-4 hidden rounded-full p-2 hover:bg-[#272727] sm:block"
+            >
+              <Mic className="h-5 w-5 text-white" />
             </button>
           </div>
         </div>
 
         <div className="flex items-center space-x-2">
-          <button 
-            className="p-2 hover:bg-[#272727] rounded-full md:hidden"
+          <button
+            className="rounded-full p-2 hover:bg-[#272727] md:hidden"
+            aria-label="Toggle search"
             onClick={() => setShowSearch(!showSearch)}
           >
-            <Search className="w-6 h-6 text-white" />
+            <Search className="h-6 w-6 text-white" />
           </button>
-          <button className="p-2 hover:bg-[#272727] rounded-full hidden sm:block">
-            <Upload className="w-6 h-6 text-white" />
+          <button
+            aria-label="Upload"
+            className="hidden rounded-full p-2 hover:bg-[#272727] sm:block"
+          >
+            <Upload className="h-6 w-6 text-white" />
           </button>
-          <button className="p-2 hover:bg-[#272727] rounded-full hidden sm:block">
-            <Bell className="w-6 h-6 text-white" />
+          <button
+            aria-label="Notifications"
+            className="hidden rounded-full p-2 hover:bg-[#272727] sm:block"
+          >
+            <Bell className="h-6 w-6 text-white" />
           </button>
           <button
             onClick={() => setShowAuthModal(true)}
-            className="p-2 hover:bg-[#272727] rounded-full"
+            aria-label="Account"
+            className="rounded-full p-2 hover:bg-[#272727]"
           >
-            <User className="w-6 h-6 text-white" />
+            <User className="h-6 w-6 text-white" />
           </button>
         </div>
       </header>
 
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </>
   );
 }
