@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, Menu, Bell, User, Mic, Upload } from 'lucide-react';
 import AuthModal from './AuthModal';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -9,6 +10,13 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  const submitSearch = () => {
+    const q = query.trim();
+    if (q) navigate(`/explore?q=${encodeURIComponent(q)}`);
+  };
 
   return (
     <>
@@ -38,12 +46,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
               <input
                 type="text"
                 placeholder="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && submitSearch()}
                 className="w-full bg-transparent px-4 py-2 text-white placeholder-[#aaa] outline-none"
               />
             </div>
             <button
               aria-label="Search"
               className="rounded-r-full border-y border-r border-[#303030] bg-[#272727] px-6 py-2 hover:bg-[#3f3f3f]"
+              onClick={submitSearch}
             >
               <Search className="h-5 w-5 text-white" />
             </button>

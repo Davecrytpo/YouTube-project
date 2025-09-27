@@ -2,7 +2,9 @@ export interface Video {
   id: string;
   title: string;
   thumbnail: string;
-  embedUrl: string;
+  videoUrl: string; // direct video URL (e.g., https://www.youtube.com/watch?v=...)
+  category?: string;
+  tags?: string[];
   channel: {
     name: string;
     avatar: string;
