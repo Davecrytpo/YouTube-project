@@ -15,6 +15,8 @@ import Watch from './pages/Watch';
 import CategoryPage from './pages/CategoryPage';
 import Shorts from './pages/Shorts';
 import Profile from './pages/Profile';
+import MiniPlayer from './components/MiniPlayer';
+import Hotkeys from './components/Hotkeys';
 
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -22,6 +24,7 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-[#0f0f0f]">
+        <Hotkeys />
         <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
         <div className="flex pt-14">
           {/* Desktop Sidebar */}
@@ -54,6 +57,9 @@ export default function App() {
         <div className="lg:hidden">
           <MobileNav />
         </div>
+
+        {/* Mini Player */}
+        <MiniPlayer />
       </div>
     </Router>
   );

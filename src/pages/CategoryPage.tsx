@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import VideoGrid from '../components/VideoGrid';
 import { MOCK_VIDEOS } from '../data/mockData';
+import VideoCardSkeleton from '../components/VideoCardSkeleton';
+import { useEffect, useState } from 'react';
 
 const CATEGORY_VIDEOS = {
   gaming: [
@@ -43,12 +45,29 @@ const CATEGORY_VIDEOS = {
 
 export default function CategoryPage() {
   const { category } = useParams();
+  const [loading, setLoading] = useState(true);
   const videos = CATEGORY_VIDEOS[category as keyof typeof CATEGORY_VIDEOS] || MOCK_VIDEOS;
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(t);
+  }, [category]);
 
   return (
     <div className="p-4">
       <h1 className="mb-6 text-2xl font-bold capitalize text-white">{category} Videos</h1>
-      <VideoGrid videos={videos} onVideoSelect={(id) => (window.location.href = `/watch/${id}`)} />
+      {loading ? (
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <VideoCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : (
+        <VideoGrid
+          videos={videos}
+          onVideoSelect={(id) => (window.location.href = `/watch/${id}`)}
+        />
+      )}
     </div>
   );
 }

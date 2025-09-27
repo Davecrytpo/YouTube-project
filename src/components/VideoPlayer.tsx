@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
-import { ThumbsUp, ThumbsDown, Share2, Save, MoreHorizontal, CheckCircle2 } from 'lucide-react';
+import {
+  ThumbsUp,
+  ThumbsDown,
+  Share2,
+  Save,
+  MoreHorizontal,
+  CheckCircle2,
+  ListPlus,
+} from 'lucide-react';
 import { Video } from '../types';
 import { useAppStore } from '../store/appStore';
 
@@ -9,14 +17,29 @@ interface VideoPlayerProps {
 }
 
 export default function VideoPlayer({ video }: VideoPlayerProps) {
-  const { toggleLike, isLiked, toggleWatchLater, isInWatchLater, addToHistory } = useAppStore();
+  const {
+    toggleLike,
+    isLiked,
+    toggleWatchLater,
+    isInWatchLater,
+    addToHistory,
+    setCurrentVideo,
+    isPlaying,
+    setIsPlaying,
+    addToQueueNext,
+    toggleSubscribe,
+    subscriptions,
+  } = useAppStore();
 
   useEffect(() => {
     addToHistory(video.id);
-  }, [video.id, addToHistory]);
+    setCurrentVideo(video.id);
+    setIsPlaying(true);
+  }, [video.id, addToHistory, setCurrentVideo, setIsPlaying]);
 
   const liked = isLiked(video.id);
   const saved = isInWatchLater(video.id);
+  const subscribed = subscriptions.includes(video.channel.name);
 
   return (
     <div className="flex flex-col">
@@ -26,7 +49,9 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
           width="100%"
           height="100%"
           controls
-          playing
+          playing={isPlaying}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
           config={{
             youtube: {
               playerVars: { controls: 1 },
@@ -53,8 +78,11 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
               </div>
               <p className="text-sm text-[#aaa]">{video.channel.subscribers} subscribers</p>
             </div>
-            <button className="rounded-full bg-white px-4 py-2 font-medium text-black hover:bg-[#f2f2f2]">
-              Subscribe
+            <button
+              onClick={() => toggleSubscribe(video.channel.name)}
+              className={`rounded-full px-4 py-2 font-medium ${subscribed ? 'bg-[#272727] text-white' : 'bg-white text-black hover:bg-[#f2f2f2]'}`}
+            >
+              {subscribed ? 'Subscribed' : 'Subscribe'}
             </button>
           </div>
 
@@ -86,6 +114,14 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
             >
               <Save className="h-5 w-5" />
               <span>{saved ? 'Saved' : 'Save'}</span>
+            </button>
+
+            <button
+              onClick={() => addToQueueNext(video.id)}
+              className="flex items-center gap-2 rounded-full bg-[#272727] px-4 py-2 text-white hover:bg-[#3f3f3f]"
+            >
+              <ListPlus className="h-5 w-5" />
+              <span>Add to queue</span>
             </button>
 
             <button className="rounded-full p-2 text-white hover:bg-[#272727]">

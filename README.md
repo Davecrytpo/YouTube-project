@@ -52,6 +52,14 @@ Note: Never commit real secrets to the repo. Rotate your Supabase anon key if it
 
 This project includes a GitHub Actions workflow to install, lint, typecheck, and build on pushes and pull requests.
 
+## Badges
+
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![CI](https://github.com/Davecrytpo/YouTube-project/actions/workflows/ci.yml/badge.svg)
+
 ## License
 
-This repository currently does not declare a license. Add one if you plan to open source.
+MIT © 2025

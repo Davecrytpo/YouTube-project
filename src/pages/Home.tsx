@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VideoGrid from '../components/VideoGrid';
 import { MOCK_VIDEOS } from '../data/mockData';
+import VideoCardSkeleton from '../components/VideoCardSkeleton';
 
 export default function Home() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Check if mobile on component mount and window resize
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     // Check initially
     checkMobile();
 
@@ -37,10 +39,15 @@ export default function Home() {
     'Live',
     'Podcasts',
     'Sports',
-    'Learning'
+    'Learning',
   ];
 
   const categories = isMobile ? mobileCategories : desktopCategories;
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -53,13 +60,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <div className="sticky top-14 z-10 bg-[#0f0f0f] border-b border-[#272727]">
-        <div className="flex overflow-x-auto py-3 px-4 gap-3 no-scrollbar">
+      <div className="sticky top-14 z-10 border-b border-[#272727] bg-[#0f0f0f]">
+        <div className="no-scrollbar flex gap-3 overflow-x-auto px-4 py-3">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className={`px-3 py-1.5 rounded-lg whitespace-nowrap text-sm font-medium
+              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium
                 ${
                   selectedCategory === category
                     ? 'bg-white text-black'
@@ -72,10 +79,15 @@ export default function Home() {
         </div>
       </div>
 
-      <VideoGrid 
-        videos={MOCK_VIDEOS} 
-        onVideoSelect={(id) => navigate(`/watch/${id}`)} 
-      />
+      {loading ? (
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <VideoCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : (
+        <VideoGrid videos={MOCK_VIDEOS} onVideoSelect={(id) => navigate(`/watch/${id}`)} />
+      )}
     </div>
   );
 }
